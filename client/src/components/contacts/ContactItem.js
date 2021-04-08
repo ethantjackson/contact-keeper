@@ -1,23 +1,30 @@
-import React, { useContext } from 'react';
-import ContactContext from '../../context/contact/contactContext';
-import PropTypes from 'prop-types';
+import React, { useContext } from "react";
+import ContactContext from "../../context/contact/contactContext";
+import PropTypes from "prop-types";
 
 const ContactItem = ({ contact }) => {
   const contactContext = useContext(ContactContext);
+  const { deleteContact, setCurrent, clearCurrent } = contactContext;
   const { name, id, email, phone, type } = contact;
 
-  const handleDelete = () => {
-    contactContext.deleteContact(id);
+  const handleEdit = () => {
+    setCurrent(contact);
   };
+
+  const handleDelete = () => {
+    deleteContact(id);
+    clearCurrent();
+  };
+
   return (
-    <div className='card bg-light'>
-      <h3 className='text-primary text-left'>
-        {name}{' '}
+    <div className="card bg-light">
+      <h3 className="text-primary text-left">
+        {name}{" "}
         <span
-          style={{ float: 'right' }}
+          style={{ float: "right" }}
           className={
-            'badge ' +
-            (type === 'professional' ? 'badge-success' : 'badge-primary')
+            "badge " +
+            (type === "professional" ? "badge-success" : "badge-primary")
           }
         >
           {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -25,16 +32,18 @@ const ContactItem = ({ contact }) => {
       </h3>
       {email && (
         <li>
-          <i className='fas fa-envelope-open'></i> {email}
+          <i className="fas fa-envelope-open"></i> {email}
         </li>
       )}
       {phone && (
         <li>
-          <i className='fas fa-phone'></i> {phone}
+          <i className="fas fa-phone"></i> {phone}
         </li>
       )}
-      <button className='btn btn-dark btn-sm'>Edit</button>
-      <button className='btn btn-danger btn-sm' onClick={handleDelete}>
+      <button className="btn btn-dark btn-sm" onClick={handleEdit}>
+        Edit
+      </button>
+      <button className="btn btn-danger btn-sm" onClick={handleDelete}>
         Delete
       </button>
     </div>
